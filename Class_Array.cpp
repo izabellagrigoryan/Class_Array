@@ -40,7 +40,14 @@ public:
         }
         return *this;
     }
-
+    int& operator[](int i)
+    {
+        if (i >= 0 && i <= this->size) 
+            
+            return this->ptr[i];
+        else      
+            return this->ptr[0];
+    }
     int get_element(int i)
     {
         if (i >= 0 && i <= this->size)
@@ -63,19 +70,8 @@ int main()
     Array array3;
     array3 = array2;
 
-    Array *array4 = new Array();
-    Array *array5 = array4;
-    Array *array6 = new Array();
-    array5 = array6;
-
-    int i = array.get_element(3);
-    int j = array4->get_element(3);
-    int k = array2.get_element(3);
-    int l = array6->get_element(3);
-
-    std::cout << &array << "  " << i << std::endl << &array2 << "  " << k << std::endl << &array3 << std::endl;
-    std::cout << &array4 << "  " << j << std::endl << &array5 << std::endl << &array6 << "  " << l << std::endl;
-
+    std::cout << array3[2] << std::endl;
+    
     return 0;
 }
 
