@@ -52,7 +52,6 @@ public:
             for (int i = 0; i < size; i++)
                 this->ptr[i] = arr.ptr[i];
             
-            delete[] arr.ptr;
             arr.ptr = nullptr;
 
             std::cout << "This is move constructor" << std::endl;
