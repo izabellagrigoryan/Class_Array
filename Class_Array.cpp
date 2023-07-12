@@ -47,10 +47,8 @@ public:
     {
         if (this != &arr)
         {
-            //this->size = arr.size;
-            //this->ptr = new int[size];
-            for (int i = 0; i < size; i++)
-                this->ptr[i] = arr.ptr[i];
+            this->size = arr.size;
+            this->ptr = arr.ptr;
             
             arr.ptr = nullptr;
 
