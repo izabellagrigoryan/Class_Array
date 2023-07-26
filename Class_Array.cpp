@@ -77,7 +77,7 @@ public:
         return *this;
     }
 
-    int& operator[](int i)
+    T& operator[](int i)
     {
         if (i >= 0 && i <= this->size) 
             
