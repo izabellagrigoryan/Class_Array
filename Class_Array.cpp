@@ -97,24 +97,28 @@ public:
 
     void push_back(T element)
     {
-        Array temp(this->size + 1);
+        T* newptr = new T[size + 1];
 
         for (int i = 0; i < this->size; i++)
-            temp[i] = ptr[i];
+            newptr[i] = this->ptr[i];
         
-        temp[this->size] = element;
-
-        *this = std::move(temp);
+        delete[] this->ptr;
+        this->ptr = newptr;
+        this->ptr[size] = element;
+        this->size++;
     }
 
     void pop_back()
     {
-        Array temp(this->size - 1);
+        T* newptr = new T[size - 1];
 
         for (int i = 0; i < this->size - 1; i++)
-            temp[i] = ptr[i];
+            newptr[i] = this->ptr[i];
 
-        *this = std::move(temp);
+        delete[] this->ptr;
+        this->ptr = newptr;
+        
+        this->size--;
     }
 
     void print_array()
