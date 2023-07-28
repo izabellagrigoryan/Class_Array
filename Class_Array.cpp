@@ -5,15 +5,15 @@ template <typename T>
 
 class Array
 {
+    T* ptr;
+    int size;
 public:
-    Array()
+    
+    explicit Array(int size) : size(size)
     {
-        this->size = 5;
         this->ptr = new T[this->size];
         for (int i = 0; i < this->size; i++)
             this->ptr[i] = rand()%100 + 1;
-
-        print_array();
     }
 
     ~Array()
@@ -44,7 +44,7 @@ public:
         return *this;
     }
 
-    Array(Array&& arr)
+    Array(Array&& arr) noexcept
     {
         if (this != &arr)
         {
@@ -53,28 +53,32 @@ public:
             
             arr.ptr = nullptr;
 
-            std::cout << "This is move constructor" << std::endl;
+            //std::cout << "This is move constructor" << std::endl;
         }
     }
 
-    Array& operator=(Array&& arr) 
+    Array& operator=(Array&& arr) noexcept
     {
         if (this != &arr)
         {
-            delete[] this->ptr;
-            this->ptr = nullptr;
+            this->size = arr.size;            
+            this->ptr = arr.ptr;
 
-            this->size = arr.size;
-            this->ptr = new T[size];
-            for (int i = 0; i < size; i++)
-                this->ptr[i] = arr.ptr[i];
-            
-            delete[] arr.ptr;
+            arr.size = 0;
             arr.ptr = nullptr;
 
-            std::cout << "This is move assignment" << std::endl;
+            //std::cout << "This is move assignment" << std::endl;
         }
         return *this;
+    }
+
+    T operator[](int i) const
+    {
+        if (i >= 0 && i <= this->size)
+
+            return this->ptr[i];
+        else
+            return this->ptr[0];
     }
 
     T& operator[](int i)
@@ -86,32 +90,64 @@ public:
             return this->ptr[0];
     }
 
+    int getsize()
+    {
+        return sizeof(T) / this->size;
+    }
+
+    void push_back(T element)
+    {
+        Array temp(this->size + 1);
+
+        for (int i = 0; i < this->size; i++)
+            temp[i] = ptr[i];
+        
+        temp[this->size] = element;
+
+        *this = std::move(temp);
+    }
+
+    void pop_back()
+    {
+        Array temp(this->size - 1);
+
+        for (int i = 0; i < this->size - 1; i++)
+            temp[i] = ptr[i];
+
+        *this = std::move(temp);
+    }
+
     void print_array()
     {
         for (int i = 0; i < size; i++)
             std::cout << this->ptr[i] << ",  " ;
         std::cout << std::endl;
     }
-
-private:
-    T* ptr;
-    int size;
-
+    
 };
 
 int main()
 {
-    Array<int> array;
-    Array<int> array2 = array;
-    Array<int> array3;
-    array3 = array2;
+    Array<char> array4(4);
+    Array<char> array5(3);
+    array5 = std::move(Array<char>(7));
+    
+    Array<char> array = std::move(Array<char>(2));
+    array.print_array();
 
-    std::cout << array[4] << std::endl;
-    
-    Array<char> array4;
-    Array<char> array5 = Array<char>();
-    
-    Array<char> array6 = std::move(Array<char>());
+    array.push_back('H');
+    array.push_back('e');
+    array.push_back('l');
+    array.push_back('l');
+    array.push_back('o');
+
+    array.print_array();
+
+    array.pop_back();
+    array.pop_back();
+
+    array.print_array();
+
     return 0;
 }
 
