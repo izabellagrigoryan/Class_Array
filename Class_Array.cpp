@@ -61,6 +61,9 @@ public:
     {
         if (this != &arr)
         {
+            delete[] this->ptr;
+            this->ptr = nullptr;
+
             this->size = arr.size;            
             this->ptr = arr.ptr;
 
