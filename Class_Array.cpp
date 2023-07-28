@@ -92,7 +92,7 @@ public:
 
     int getsize()
     {
-        return sizeof(T) / this->size;
+        return this->size;
     }
 
     void push_back(T element)
@@ -142,11 +142,15 @@ int main()
     array.push_back('o');
 
     array.print_array();
+    int i = array.getsize();
+    std::cout << "The size of array  = " << i << std::endl;
 
     array.pop_back();
     array.pop_back();
 
     array.print_array();
+    i = array.getsize();
+    std::cout << "The size of array  = " << i << std::endl;
 
     return 0;
 }
